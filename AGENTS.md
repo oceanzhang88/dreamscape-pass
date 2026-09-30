@@ -4,7 +4,8 @@ The Mac's RDP client for Mage M's console, which GNOME Desktop Sharing mirrors. 
 [FreeRDP/FreeRDP](https://github.com/FreeRDP/FreeRDP), named after the Penacony pass that lets
 you walk into someone else's dream while your body stays home. The launcher that uses it is
 hexenzirkel `scripts/mage-m-desktop.sh` (`m-desktop`, "M Desktop" in Spotlight). That launcher
-prefers this build's install prefix and falls back to Homebrew's `sdl-freerdp`.
+runs only this build's install prefix. Homebrew's `sdl-freerdp` is no fallback (Traveler,
+2026-09-30 02:51): a missing install fails `--check` and prints `just install` as the cure.
 
 ## Branches
 
@@ -20,8 +21,10 @@ prefers this build's install prefix and falls back to Homebrew's `sdl-freerdp`.
 |---|---|---|
 | `[client,sdl] query macOS display geometry without a probe window` | At start-up the SDL client probed each display with a visible full-screen window. With SDL's default, the Spaces slid away and back (8 active-Space changes in one launch); with `SDL_VIDEO_MAC_FULLSCREEN_SPACES=0`, each display flashed black instead. After the patch: 0 windows and 0 changes, and every monitor field is identical to before. | [FreeRDP#13564](https://github.com/FreeRDP/FreeRDP/pull/13564), opened 2026-09-30 |
 
-When upstream releases a version that contains a patch, that patch leaves `main`. Once `main`
-carries nothing, retire the prefix, and `m-desktop` falls back to Homebrew's client on its own.
+When upstream releases a version that contains a patch, the rebase onto that tag drops the patch
+from `main`. `main` stays the house client even when it carries no patch. Moving `m-desktop` to
+another client is a change to the launcher's `CLIENT` line, made on purpose. Nothing falls back
+on its own.
 
 ## Doors
 
